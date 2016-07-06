@@ -1,4 +1,5 @@
-Super Simple Stocks assignment for JPMorgan application
+# Super Simple Stocks
+####Assignment for JPMorgan application
 
 Aleksei Smyshliaev, 06.07.2016
 
@@ -10,7 +11,10 @@ at the time of creation.
 Docstrings are written according to Epytext format.
 
 Script is supposed to be run from command line, e.g.
+    
     $ python2.7 stocks.py
-    or
+or
+
     > python2.7.exe stocks.py
+
 Command line interface should guide you from there.
