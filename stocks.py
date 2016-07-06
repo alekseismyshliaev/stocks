@@ -234,7 +234,6 @@ class Interface(object):
             else:
                 _data += _with_trades.format(_stock.dividend_yield,
                     _stock.PE_ratio, _stock.price)
-                print _with_trades.format(*_data)
 
             print _data
             print _divider
