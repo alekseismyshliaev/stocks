@@ -81,16 +81,24 @@ class Stock(object):
     def dividend_yield(self):
         """Calculate dividend yield for a given stock"""
 
+        # C{self.price} is a property, avoid double calculation
+        _price = self.price
+        # Avoid division by 0
+        if _price == 0:
+            return 0
         if self.type == Stock.COMMON:
-            return self.last_dividend / self.price
+            return (self.last_dividend / _price)
         elif self.type == Stock.PREFERRED:
-            return (self.fixed_dividend * self.par_value) / self.price
+            return ((self.fixed_dividend * self.par_value) / _price)
 
     @property
     def PE_ratio(self):
         """Calculate P/E Ratio for a given stock"""
 
-        return self.dividend_yield / self.price
+        # C{self.price} is a property, avoid double calculation
+        _price = self.price
+        # Avoid division by 0
+        return (self.dividend_yield / _price if _price else 0)
 
     @property
     def price(self):
@@ -99,12 +107,12 @@ class Stock(object):
         _recent_trades = self.recent_trades
         # Calculate the stock price
         _total_quantity = sum(_trade.quantity for _trade in _recent_trades)
+        # Avoid division by zero
+        if _total_quantity == 0:
+            return 0
         _total_price = 0.0
         for _trade in _recent_trades:
             _total_price += (_trade.quantity * _trade.price)
-        if _total_price == 0:
-            # Escape division by zero
-            return 0
         return (_total_price / _total_quantity)
 
     @property
@@ -147,6 +155,7 @@ class Stocks(list):
 
         """
         _nn = len(self)
+        assert _nn > 0, "There must be stocks registered to calculate GBCE"
         # Calculate product of all prices
         _product = reduce(operator.mul, tuple(_stock.price for _stock in self))
         # Calculate n-th root of the product
